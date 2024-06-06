@@ -4,6 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 // local imports
 import { HomeScreen, MyNetwork, Post, Notifications, Jobs } from "./screens";
 import { Color } from "./constants/Color";
+import Header from "./Header";
 
 const Tab = createBottomTabNavigator();
 
@@ -26,7 +27,11 @@ function tabBarIcon(
 function TabNavigator() {
   return (
     <Tab.Navigator
-      screenOptions={{ headerShown: false, tabBarActiveTintColor: Color.black }}
+      screenOptions={{
+        tabBarActiveTintColor: Color.black,
+        header: () => <Header />,
+      }}
+      sceneContainerStyle={{ backgroundColor: Color.grey }}
     >
       <Tab.Screen
         name="Home"
