@@ -2,7 +2,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 // local imports
-import { HomeScreen, MyNetwork, Post, Notifications, Jobs } from "./screens";
+import {
+  HomeScreen,
+  MyNetworkScreen,
+  PostScreen,
+  NotificationsScreen,
+  JobsScreen,
+} from "./screens";
 import { Color } from "./constants/Color";
 import Header from "./Header";
 
@@ -27,47 +33,54 @@ function tabBarIcon(
 function TabNavigator() {
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({ navigation }) => ({
         tabBarActiveTintColor: Color.black,
-        header: () => <Header />,
-      }}
-      sceneContainerStyle={{ backgroundColor: Color.grey }}
+        header: () => (
+          <Header openDrawer={() => navigation.openDrawer("DrawerNavigator")} />
+        ),
+      })}
+      sceneContainerStyle={{ backgroundColor: Color.grey[100] }}
     >
       <Tab.Screen
-        name="Home"
+        name="HomeScreen"
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => tabBarIcon("Home", color, size),
+          tabBarLabel: "Home",
         }}
       />
       <Tab.Screen
-        name="My Network"
-        component={MyNetwork}
+        name="MyNetworkScreen"
+        component={MyNetworkScreen}
         options={{
           tabBarIcon: ({ color, size }) =>
             tabBarIcon("My Network", color, size),
+          tabBarLabel: "My Network",
         }}
       />
       <Tab.Screen
-        name="Post"
-        component={Post}
+        name="PostScreen"
+        component={PostScreen}
         options={{
           tabBarIcon: ({ color, size }) => tabBarIcon("Post", color, size),
+          tabBarLabel: "Post",
         }}
       />
       <Tab.Screen
-        name="Notifications"
-        component={Notifications}
+        name="NotificationsScreen"
+        component={NotificationsScreen}
         options={{
           tabBarIcon: ({ color, size }) =>
             tabBarIcon("Notifications", color, size),
+          tabBarLabel: "Notifications",
         }}
       />
       <Tab.Screen
-        name="Jobs"
-        component={Jobs}
+        name="JobsScreen"
+        component={JobsScreen}
         options={{
           tabBarIcon: ({ color, size }) => tabBarIcon("Jobs", color, size),
+          tabBarLabel: "Jobs",
         }}
       />
     </Tab.Navigator>

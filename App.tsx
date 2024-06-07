@@ -1,14 +1,16 @@
+import "react-native-gesture-handler";
+
 import { Platform, SafeAreaView, StatusBar, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 
 // local imports
-import TabNavigator from "./TabNavigator";
+import Navigator from "./Navigator";
 
 export default function App() {
   return (
     <SafeAreaView style={styles.safeView}>
       <NavigationContainer>
-        <TabNavigator />
+        <Navigator />
       </NavigationContainer>
     </SafeAreaView>
   );
