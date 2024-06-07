@@ -2,18 +2,19 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // local imports
 import DrawerNavigator from "./DrawerNavigator";
-import { SettingScreen } from "./screens";
+import { ChatScreen, SettingScreen } from "./screens";
 
 export type NativeStackParamList = {
   DrawerNavigator: undefined;
   SettingScreen: undefined;
+  ChatScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<NativeStackParamList>();
 
 function Navigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ animation: "slide_from_right" }}>
       <Stack.Screen
         name="DrawerNavigator"
         component={DrawerNavigator}
@@ -22,6 +23,11 @@ function Navigator() {
       <Stack.Screen
         name="SettingScreen"
         component={SettingScreen}
+        options={{ title: "" }}
+      />
+      <Stack.Screen
+        name="ChatScreen"
+        component={ChatScreen}
         options={{ title: "" }}
       />
     </Stack.Navigator>

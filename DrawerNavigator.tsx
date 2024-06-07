@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Avatar } from "@rneui/themed";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
@@ -23,7 +23,7 @@ function drawerContent({ closeDrawer }: Props) {
   }
 
   return (
-    <View style={drawerContentStyles.drawer}>
+    <ScrollView contentContainerStyle={drawerContentStyles.drawer}>
       <View style={drawerContentStyles.header}>
         <Avatar
           size={65}
@@ -105,7 +105,7 @@ function drawerContent({ closeDrawer }: Props) {
           <Text style={drawerContentStyles.settingTitle}>Settings</Text>
         </Pressable>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -127,7 +127,7 @@ export default DrawerNavigator;
 const drawerContentStyles = StyleSheet.create({
   drawer: {
     gap: 20,
-    flex: 1,
+    flexGrow: 1,
   },
   header: {
     backgroundColor: Color.blue[200],

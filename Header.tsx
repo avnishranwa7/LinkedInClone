@@ -2,21 +2,25 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Avatar } from "@rneui/themed";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 // local imports
 import { Color } from "./constants/Color";
 import { FC } from "react";
+import { NativeStackParamList } from "./Navigator";
 
 interface Props {
   openDrawer: () => void;
 }
 
 const Header: FC<Props> = ({ openDrawer }) => {
+  const { navigate } = useNavigation<NavigationProp<NativeStackParamList>>();
+
   return (
     <View style={styles.header}>
       <Pressable onPress={() => openDrawer()}>
         <Avatar
-          size={30}
+          size={33}
           rounded
           icon={{ name: "user", type: "font-awesome", color: Color.black }}
           containerStyle={{ backgroundColor: Color.grey[200] }}
@@ -26,7 +30,9 @@ const Header: FC<Props> = ({ openDrawer }) => {
         <Ionicons name="search" size={18} color={Color.black} />
         <Text style={styles.searchText}>Search</Text>
       </View>
-      <AntDesign name="message1" size={22} color="black" />
+      <Pressable onPress={() => navigate("ChatScreen")}>
+        <AntDesign name="message1" size={22} color="black" />
+      </Pressable>
     </View>
   );
 };

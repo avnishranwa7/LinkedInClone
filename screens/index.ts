@@ -5,3 +5,4 @@ export { default as NotificationsScreen } from "./Notifications/index";
 export { default as JobsScreen } from "./Jobs/index";
 export { default as ProfileScreen } from "./Profile/index";
 export { default as SettingScreen } from "./Setting/index";
+export { default as ChatScreen } from "./Chat/index";
