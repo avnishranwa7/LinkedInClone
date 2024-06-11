@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import { View, StyleSheet, Pressable, Text } from "react-native";
 import { Avatar } from "@rneui/themed";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -9,15 +9,20 @@ import Entypo from "@expo/vector-icons/Entypo";
 // local imports
 import { Color } from "../constants/Color";
 import LikedButton from "./LikedButton";
+import { Post as PostType } from "./types";
 
-const Post = () => {
+interface Props {
+  post: PostType;
+}
+
+const Post: FC<Props> = ({ post }) => {
   const [liked, setLiked] = useState(false);
 
   return (
     <View style={styles.post}>
       <Pressable
         style={({ pressed }) => [
-          pressed && { backgroundColor: Color.grey[100] },
+          pressed && styles.pressable,
           styles.profileView,
         ]}
       >
@@ -35,7 +40,7 @@ const Post = () => {
             }}
           >
             <Text style={{ fontSize: 16, fontWeight: "500" }}>
-              Nishant Chahar
+              {post.author.name}
             </Text>
             <Text
               numberOfLines={1}
@@ -45,8 +50,7 @@ const Post = () => {
                 color: Color.grey[600],
               }}
             >
-              Building @ Tayyari & AlgoPrep | Ex-Microsoft | 350k+ Subs on YT |
-              NSIT
+              {post.author.bio}
             </Text>
           </View>
           <View
@@ -57,7 +61,7 @@ const Post = () => {
           >
             <Pressable
               style={({ pressed }) => [
-                pressed && { backgroundColor: Color.grey[100] },
+                pressed && styles.pressable,
                 { padding: 14 },
               ]}
             >
@@ -69,7 +73,7 @@ const Post = () => {
             </Pressable>
             <Pressable
               style={({ pressed }) => [
-                pressed && { backgroundColor: Color.grey[100] },
+                pressed && styles.pressable,
                 { padding: 8 },
               ]}
             >
@@ -79,34 +83,19 @@ const Post = () => {
         </View>
       </Pressable>
       <View style={styles.contentView}>
-        <Text style={{ fontSize: 14, color: Color.black }}>
-          Harvard university is offering FREE world class education in Data
-          Science!{"\n"}Courses cover:{"\n"}- Python{"\n"}- Data Visualization
-          {"\n"}- Probability{"\n"}- Statistics{"\n"}- Machine Learning{"\n"}-
-          Data Science: Capstone{"\n"}
-          {"\n"}A project-based pedagogy that allows you to learn while
-          building!{"\n"}
-          {"\n"}
-          1. CS50p: Python{"\n"}
-          {"\n"}
-          If you are new to programming and just getting started{"\n"}
-          {"\n"}
-          There isn't a better place to learn Python than @davidjmalan's CS50p.
-          {"\n"}
-          {"\n"}
-          Beautiful explanation and great projects. It's a complete package.
-          {"\n"}
-          {"\n"}
-          Check this out{"\n"}
-          {"\n"}https://lnkd.in/dv-jYHJ6{"\n"}
-          {"\n"}2. Data Visualization{"\n"}
-          {"\n"}
-          Learn basic data visualization principles and how to apply them using
-          ggplot2.{"\n"}
-          {"\n"}Check this out{"\n"}
-          {"\n"}https://lnkd.in/dxK3mHqb{"\n"}
-          {"\n"}3. Probability
-        </Text>
+        <Text style={{ fontSize: 14, color: Color.black }}>{post.content}</Text>
+      </View>
+      <View style={styles.tagsView}>
+        {post.tags?.map((tag) => (
+          <Pressable
+            key={tag.id}
+            style={({ pressed }) => [
+              pressed && { backgroundColor: Color.blue[200] },
+            ]}
+          >
+            <Text style={styles.tag}>#{tag.tag}</Text>
+          </Pressable>
+        ))}
       </View>
       <View style={styles.countView}>
         <Pressable
@@ -116,7 +105,7 @@ const Post = () => {
           ]}
         >
           <LikedButton />
-          <Text style={styles.countText}>48</Text>
+          <Text style={styles.countText}>{post.likesCount}</Text>
         </Pressable>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
           <Pressable
@@ -124,7 +113,7 @@ const Post = () => {
               pressed && { backgroundColor: Color.blue[50] },
             ]}
           >
-            <Text style={styles.countText}>11 comments</Text>
+            <Text style={styles.countText}>{post.commentsCount} comments</Text>
           </Pressable>
           <Text style={[styles.countText, { fontSize: 4 }]}>{"\u2B24"}</Text>
           <Pressable
@@ -132,7 +121,7 @@ const Post = () => {
               pressed && { backgroundColor: Color.blue[50] },
             ]}
           >
-            <Text style={styles.countText}>8 reposts</Text>
+            <Text style={styles.countText}>{post.repostsCount} reposts</Text>
           </Pressable>
         </View>
       </View>
@@ -195,7 +184,7 @@ export default Post;
 const styles = StyleSheet.create({
   post: {
     backgroundColor: Color.white,
-    marginVertical: 8,
+    marginTop: 8,
   },
   userView: {
     flexDirection: "row",
@@ -207,6 +196,16 @@ const styles = StyleSheet.create({
   },
   contentView: {
     marginHorizontal: 12,
+  },
+  tagsView: {
+    flexDirection: "row",
+    margin: 12,
+    gap: 3,
+    flexWrap: "wrap",
+  },
+  tag: {
+    color: Color.blue[800],
+    fontWeight: "700",
   },
   countView: {
     flexDirection: "row",
