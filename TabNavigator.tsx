@@ -39,7 +39,7 @@ function TabNavigator() {
           <Header openDrawer={() => navigation.openDrawer("DrawerNavigator")} />
         ),
       })}
-      sceneContainerStyle={{ backgroundColor: Color.grey[100] }}
+      sceneContainerStyle={{ backgroundColor: Color.grey[200] }}
     >
       <Tab.Screen
         name="HomeScreen"

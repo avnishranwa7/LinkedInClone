@@ -1,10 +1,13 @@
-import { Text, View } from "react-native";
+import { ScrollView } from "react-native";
+
+// local imports
+import Post from "../../components/Post";
 
 const Home = () => {
   return (
-    <View>
-      <Text>Home Screen</Text>
-    </View>
+    <ScrollView>
+      <Post />
+    </ScrollView>
   );
 };
 
