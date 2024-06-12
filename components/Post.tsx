@@ -5,11 +5,13 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Entypo from "@expo/vector-icons/Entypo";
+import ViewMoreText from "react-native-view-more-text";
 
 // local imports
 import { Color } from "../constants/Color";
 import LikedButton from "./LikedButton";
 import { Post as PostType } from "./types";
+import RemovedPost from "./RemovedPost";
 
 interface Props {
   post: PostType;
@@ -17,6 +19,10 @@ interface Props {
 
 const Post: FC<Props> = ({ post }) => {
   const [liked, setLiked] = useState(false);
+  const [removed, setRemoved] = useState(false);
+  const [seeMore, setSeeMore] = useState(false);
+
+  if (removed) return <RemovedPost undo={() => setRemoved(false)} />;
 
   return (
     <View style={styles.post}>
@@ -72,6 +78,7 @@ const Post: FC<Props> = ({ post }) => {
               />
             </Pressable>
             <Pressable
+              onPress={() => setRemoved(true)}
               style={({ pressed }) => [
                 pressed && styles.pressable,
                 { padding: 8 },
@@ -83,7 +90,31 @@ const Post: FC<Props> = ({ post }) => {
         </View>
       </Pressable>
       <View style={styles.contentView}>
-        <Text style={{ fontSize: 14, color: Color.black }}>{post.content}</Text>
+        {seeMore ? (
+          <Text style={{ fontSize: 14, color: Color.black }}>
+            {post.content}
+          </Text>
+        ) : (
+          <ViewMoreText
+            numberOfLines={3}
+            renderViewLess={() => <Text></Text>}
+            renderViewMore={(onPress) => (
+              <Text
+                onPress={() => {
+                  onPress();
+                  setSeeMore(true);
+                }}
+                style={{ color: Color.grey[700] }}
+              >
+                see more
+              </Text>
+            )}
+          >
+            <Text style={{ fontSize: 14, color: Color.black }}>
+              {post.content}
+            </Text>
+          </ViewMoreText>
+        )}
       </View>
       <View style={styles.tagsView}>
         {post.tags?.map((tag) => (
@@ -184,7 +215,7 @@ export default Post;
 const styles = StyleSheet.create({
   post: {
     backgroundColor: Color.white,
-    marginTop: 8,
+    marginVertical: 4,
   },
   userView: {
     flexDirection: "row",
