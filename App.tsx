@@ -1,12 +1,15 @@
-import "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { useState } from "react";
 import { Platform, SafeAreaView, StatusBar, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+import { Provider } from "react-redux";
 
 // local imports
+import { store } from "./store/index";
 import Navigator from "./Navigator";
 import LoadingScreen from "./SplashScreen";
+import BottomSheetModal from "./components/BottomSheetModal";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -18,11 +21,16 @@ export default function App() {
   return loading ? (
     <LoadingScreen />
   ) : (
-    <SafeAreaView style={styles.safeView}>
-      <NavigationContainer>
-        <Navigator />
-      </NavigationContainer>
-    </SafeAreaView>
+    <Provider store={store}>
+      <GestureHandlerRootView>
+        <SafeAreaView style={styles.safeView}>
+          <NavigationContainer>
+            <Navigator />
+          </NavigationContainer>
+          <BottomSheetModal />
+        </SafeAreaView>
+      </GestureHandlerRootView>
+    </Provider>
   );
 }
 

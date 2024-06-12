@@ -65,7 +65,7 @@ export default RemovedPost;
 const styles = StyleSheet.create({
   post: {
     backgroundColor: Color.white,
-    marginTop: 8,
+    marginVertical: 4,
     paddingHorizontal: 12,
   },
   undoView: {

@@ -6,9 +6,11 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Entypo from "@expo/vector-icons/Entypo";
 import ViewMoreText from "react-native-view-more-text";
+import { useDispatch } from "react-redux";
 
 // local imports
 import { Color } from "../constants/Color";
+import { open } from "../store/BottomSheet";
 import LikedButton from "./LikedButton";
 import { Post as PostType } from "./types";
 import RemovedPost from "./RemovedPost";
@@ -21,6 +23,12 @@ const Post: FC<Props> = ({ post }) => {
   const [liked, setLiked] = useState(false);
   const [removed, setRemoved] = useState(false);
   const [seeMore, setSeeMore] = useState(false);
+
+  const dispatch = useDispatch();
+
+  function openModal() {
+    dispatch(open(post.author.name));
+  }
 
   if (removed) return <RemovedPost undo={() => setRemoved(false)} />;
 
@@ -66,6 +74,7 @@ const Post: FC<Props> = ({ post }) => {
             }}
           >
             <Pressable
+              onPress={openModal}
               style={({ pressed }) => [
                 pressed && styles.pressable,
                 { padding: 14 },
