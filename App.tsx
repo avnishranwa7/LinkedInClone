@@ -9,7 +9,6 @@ import { Provider } from "react-redux";
 import { store } from "./store/index";
 import Navigator from "./Navigator";
 import LoadingScreen from "./SplashScreen";
-import BottomSheetModal from "./components/BottomSheetModal";
 import { Color } from "./constants/Color";
 
 export default function App() {
@@ -29,7 +28,6 @@ export default function App() {
           <NavigationContainer>
             <Navigator />
           </NavigationContainer>
-          <BottomSheetModal />
         </SafeAreaView>
       </GestureHandlerRootView>
     </Provider>

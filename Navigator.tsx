@@ -14,7 +14,7 @@ const Stack = createNativeStackNavigator<NativeStackParamList>();
 
 function Navigator() {
   return (
-    <Stack.Navigator screenOptions={{ animation: "slide_from_right" }}>
+    <Stack.Navigator>
       <Stack.Screen
         name="DrawerNavigator"
         component={DrawerNavigator}
@@ -28,7 +28,7 @@ function Navigator() {
       <Stack.Screen
         name="ChatScreen"
         component={ChatScreen}
-        options={{ title: "" }}
+        options={{ title: "", animation: "slide_from_right" }}
       />
     </Stack.Navigator>
   );
