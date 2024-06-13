@@ -28,7 +28,10 @@ const Home = () => {
 export default Home;
 
 const styles = StyleSheet.create({
-  home: {},
+  home: {
+    paddingVertical: 8,
+    gap: 8,
+  },
   noPostText: {
     fontSize: 20,
     fontWeight: "500",

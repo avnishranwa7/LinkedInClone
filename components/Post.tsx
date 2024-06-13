@@ -314,7 +314,6 @@ export default Post;
 const styles = StyleSheet.create({
   post: {
     backgroundColor: Color.white,
-    marginVertical: 4,
   },
   connectionView: {
     flexDirection: "row",
