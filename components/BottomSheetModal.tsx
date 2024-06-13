@@ -19,7 +19,7 @@ import { close } from "../store/BottomSheet";
 
 const BottomSheetModalComponent = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ["25%", "40%"], []);
+  const snapPoints = useMemo(() => [130, 280], []);
 
   const dispatch = useDispatch();
   const open = useSelector((state: RootState) => state.bottomSheet.isOpen);

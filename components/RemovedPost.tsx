@@ -5,10 +5,11 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Color } from "../constants/Color";
 
 interface Props {
+  remove: () => void;
   undo: () => void;
 }
 
-const RemovedPost: FC<Props> = ({ undo }) => {
+const RemovedPost: FC<Props> = ({ remove, undo }) => {
   return (
     <View style={styles.post}>
       <View style={styles.undoView}>
@@ -26,6 +27,7 @@ const RemovedPost: FC<Props> = ({ undo }) => {
       <View style={styles.feedbackView}>
         <Text>Tell us more so we can adjust your feed.</Text>
         <Pressable
+          onPress={remove}
           style={({ pressed }) => [
             styles.roundedFeedback,
             pressed && styles.pressableRounded,
@@ -36,6 +38,7 @@ const RemovedPost: FC<Props> = ({ undo }) => {
           </Text>
         </Pressable>
         <Pressable
+          onPress={remove}
           style={({ pressed }) => [
             styles.roundedFeedback,
             pressed && styles.pressableRounded,
@@ -46,6 +49,7 @@ const RemovedPost: FC<Props> = ({ undo }) => {
           </Text>
         </Pressable>
         <Pressable
+          onPress={remove}
           style={({ pressed }) => [
             styles.roundedFeedback,
             pressed && styles.pressableRounded,

@@ -1,4 +1,3 @@
-import React from "react";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -22,7 +21,9 @@ export const bottomSheet = createSlice({
     // incrementByAmount: (state, action: PayloadAction<number>) => {
     //   state.value += action.payload;
     // },
-    open: (state, action: PayloadAction<string>) => {
+    open: (state, action: PayloadAction<string | undefined>) => {
+      if (!action.payload) return;
+
       if (!state.isOpen) {
         state.isOpen = true;
       }

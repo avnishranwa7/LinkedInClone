@@ -2,11 +2,13 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Avatar } from "@rneui/themed";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 // local imports
 import TabNavigator from "./TabNavigator";
 import { Color } from "./constants/Color";
 import { NativeStackParamList } from "./Navigator";
+import { RootState } from "./store";
 
 const Drawer = createDrawerNavigator();
 
@@ -16,6 +18,8 @@ interface Props {
 
 function drawerContent({ closeDrawer }: Props) {
   const navigation = useNavigation<NavigationProp<NativeStackParamList>>();
+
+  const user = useSelector((state: RootState) => state.user.profile);
 
   function navigate(screen: keyof NativeStackParamList) {
     closeDrawer();
@@ -35,15 +39,20 @@ function drawerContent({ closeDrawer }: Props) {
             top: "70%",
             left: 24,
           }}
+          {...(user.imageUri && { source: { uri: user.imageUri } })}
         />
       </View>
       <View style={drawerContentStyles.infoView}>
-        <Text style={drawerContentStyles.nameText}>Avnish Ranwa</Text>
-        <Text>Software Engineer | 3 ★ CodeChef</Text>
-        <Text style={drawerContentStyles.greyText}>
-          Jaipur, Rajasthan, India
+        <Text numberOfLines={1} style={drawerContentStyles.nameText}>
+          {user.name}
         </Text>
-        <Text>Softsensor.ai</Text>
+        {user.bio && <Text numberOfLines={1}>{user.bio}</Text>}
+        {user.address && (
+          <Text numberOfLines={1} style={drawerContentStyles.greyText}>
+            {user.address}
+          </Text>
+        )}
+        {user.company && <Text numberOfLines={1}>{user.company}</Text>}
       </View>
       <View style={drawerContentStyles.profileView}>
         <Pressable

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import { View, StyleSheet, Pressable, Text } from "react-native";
 import { Avatar } from "@rneui/themed";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -11,29 +11,101 @@ import { useDispatch } from "react-redux";
 // local imports
 import { Color } from "../constants/Color";
 import { open } from "../store/BottomSheet";
+import { Users } from "../screens/Home/Data";
 import LikedButton from "./LikedButton";
-import { Post as PostType } from "./types";
+import { Post as PostType, connectionType } from "./types";
 import RemovedPost from "./RemovedPost";
+
+function getConnectionString(type: connectionType) {
+  if (type === "comment") return "commented on this";
+  if (type === "support") return "supports this";
+  if (type === "contributed") return "contributed to this";
+  if (type === "liked") return "liked this";
+
+  return "finds this funny";
+}
 
 interface Props {
   post: PostType;
+  remove: (id: string) => void;
 }
 
-const Post: FC<Props> = ({ post }) => {
+const Post: FC<Props> = ({ post, remove }) => {
   const [liked, setLiked] = useState(false);
   const [removed, setRemoved] = useState(false);
   const [seeMore, setSeeMore] = useState(false);
 
   const dispatch = useDispatch();
 
+  const user = useMemo(
+    () => Users.find((user) => user.id === post.userId),
+    [post]
+  );
+
+  const connectionUser = Users.find(
+    (user) => user.id === post.connection?.userId
+  );
+
   function openModal() {
-    dispatch(open(post.author.name));
+    dispatch(open(user?.name));
   }
 
-  if (removed) return <RemovedPost undo={() => setRemoved(false)} />;
+  if (removed)
+    return (
+      <RemovedPost
+        remove={() => remove(post.id)}
+        undo={() => setRemoved(false)}
+      />
+    );
 
   return (
     <View style={styles.post}>
+      {post.connection && (
+        <View style={styles.connectionView}>
+          <Avatar
+            size={26}
+            rounded
+            icon={{ name: "user", type: "font-awesome", color: Color.black }}
+            containerStyle={{ backgroundColor: Color.grey[200] }}
+            {...(connectionUser?.imageUri && {
+              source: { uri: connectionUser.imageUri },
+            })}
+          />
+          <Text style={{ marginLeft: 8, fontWeight: "500" }}>
+            {connectionUser?.name}
+          </Text>
+          <Text> {getConnectionString(post.connection.type)}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              flex: 1,
+              justifyContent: "flex-end",
+              gap: 16,
+            }}
+          >
+            <Pressable
+              onPress={openModal}
+              style={({ pressed }) => [
+                pressed && styles.pressable,
+                { padding: 4 },
+              ]}
+            >
+              <Entypo
+                name="dots-three-vertical"
+                size={14}
+                color={Color.grey[800]}
+              />
+            </Pressable>
+            <Pressable
+              onPress={() => setRemoved(true)}
+              style={({ pressed }) => pressed && styles.pressable}
+            >
+              <Entypo name="cross" size={24} color={Color.grey[800]} />
+            </Pressable>
+          </View>
+        </View>
+      )}
       <Pressable
         style={({ pressed }) => [
           pressed && styles.pressable,
@@ -46,6 +118,7 @@ const Post: FC<Props> = ({ post }) => {
             rounded
             icon={{ name: "user", type: "font-awesome", color: Color.black }}
             containerStyle={{ backgroundColor: Color.grey[200] }}
+            {...(user?.imageUri && { source: { uri: user.imageUri } })}
           />
           <View
             style={{
@@ -54,7 +127,7 @@ const Post: FC<Props> = ({ post }) => {
             }}
           >
             <Text style={{ fontSize: 16, fontWeight: "500" }}>
-              {post.author.name}
+              {user?.name}
             </Text>
             <Text
               numberOfLines={1}
@@ -64,38 +137,40 @@ const Post: FC<Props> = ({ post }) => {
                 color: Color.grey[600],
               }}
             >
-              {post.author.bio}
+              {user?.bio}
             </Text>
           </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Pressable
-              onPress={openModal}
-              style={({ pressed }) => [
-                pressed && styles.pressable,
-                { padding: 14 },
-              ]}
+          {!post.connection && (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
             >
-              <Entypo
-                name="dots-three-vertical"
-                size={14}
-                color={Color.grey[800]}
-              />
-            </Pressable>
-            <Pressable
-              onPress={() => setRemoved(true)}
-              style={({ pressed }) => [
-                pressed && styles.pressable,
-                { padding: 8 },
-              ]}
-            >
-              <Entypo name="cross" size={24} color={Color.grey[800]} />
-            </Pressable>
-          </View>
+              <Pressable
+                onPress={openModal}
+                style={({ pressed }) => [
+                  pressed && styles.pressable,
+                  { padding: 14 },
+                ]}
+              >
+                <Entypo
+                  name="dots-three-vertical"
+                  size={14}
+                  color={Color.grey[800]}
+                />
+              </Pressable>
+              <Pressable
+                onPress={() => setRemoved(true)}
+                style={({ pressed }) => [
+                  pressed && styles.pressable,
+                  { padding: 8 },
+                ]}
+              >
+                <Entypo name="cross" size={24} color={Color.grey[800]} />
+              </Pressable>
+            </View>
+          )}
         </View>
       </Pressable>
       <View style={styles.contentView}>
@@ -137,32 +212,47 @@ const Post: FC<Props> = ({ post }) => {
           </Pressable>
         ))}
       </View>
-      <View style={styles.countView}>
-        <Pressable
-          style={({ pressed }) => [
-            pressed && { backgroundColor: Color.blue[50] },
-            styles.likeView,
-          ]}
-        >
-          <LikedButton />
-          <Text style={styles.countText}>{post.likesCount}</Text>
-        </Pressable>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+      <View
+        style={[
+          styles.countView,
+          { paddingVertical: post.likesCount > 0 ? 0 : 12 },
+        ]}
+      >
+        {post.likesCount > 0 && (
           <Pressable
             style={({ pressed }) => [
               pressed && { backgroundColor: Color.blue[50] },
+              styles.likeView,
             ]}
           >
-            <Text style={styles.countText}>{post.commentsCount} comments</Text>
+            <LikedButton />
+            <Text style={styles.countText}>{post.likesCount}</Text>
           </Pressable>
-          <Text style={[styles.countText, { fontSize: 4 }]}>{"\u2B24"}</Text>
-          <Pressable
-            style={({ pressed }) => [
-              pressed && { backgroundColor: Color.blue[50] },
-            ]}
-          >
-            <Text style={styles.countText}>{post.repostsCount} reposts</Text>
-          </Pressable>
+        )}
+        <View style={styles.commentView}>
+          {post.commentsCount > 0 && (
+            <Pressable
+              style={({ pressed }) => [
+                pressed && { backgroundColor: Color.blue[50] },
+              ]}
+            >
+              <Text style={styles.countText}>
+                {post.commentsCount} comments
+              </Text>
+            </Pressable>
+          )}
+          {post.repostsCount > 0 && (
+            <Text style={[styles.countText, { fontSize: 4 }]}>{"\u2B24"}</Text>
+          )}
+          {post.repostsCount > 0 && (
+            <Pressable
+              style={({ pressed }) => [
+                pressed && { backgroundColor: Color.blue[50] },
+              ]}
+            >
+              <Text style={styles.countText}>{post.repostsCount} reposts</Text>
+            </Pressable>
+          )}
         </View>
       </View>
       <View style={styles.actionsView}>
@@ -226,6 +316,14 @@ const styles = StyleSheet.create({
     backgroundColor: Color.white,
     marginVertical: 4,
   },
+  connectionView: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 12,
+    borderBottomWidth: 1,
+    borderColor: Color.grey[300],
+    paddingVertical: 8,
+  },
   userView: {
     flexDirection: "row",
     gap: 8,
@@ -251,7 +349,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginHorizontal: 12,
     alignItems: "center",
-    justifyContent: "space-between",
   },
   likeView: {
     flexDirection: "row",
@@ -261,6 +358,13 @@ const styles = StyleSheet.create({
     gap: 4,
     width: 100,
     alignItems: "center",
+  },
+  commentView: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    flex: 1,
+    justifyContent: "flex-end",
   },
   countText: {
     fontSize: 12,
