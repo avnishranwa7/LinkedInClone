@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { Color } from "../constants/Color";
 import { open } from "../store/BottomSheet";
 import { Users } from "../screens/Home/Data";
+import { remove } from "../store/posts";
 import LikedButton from "./LikedButton";
 import { Post as PostType, connectionType } from "./types";
 import RemovedPost from "./RemovedPost";
@@ -27,10 +28,9 @@ function getConnectionString(type: connectionType) {
 
 interface Props {
   post: PostType;
-  remove: (id: string) => void;
 }
 
-const Post: FC<Props> = ({ post, remove }) => {
+const Post: FC<Props> = ({ post }) => {
   const [liked, setLiked] = useState(false);
   const [removed, setRemoved] = useState(false);
   const [seeMore, setSeeMore] = useState(false);
@@ -53,7 +53,7 @@ const Post: FC<Props> = ({ post, remove }) => {
   if (removed)
     return (
       <RemovedPost
-        remove={() => remove(post.id)}
+        remove={() => dispatch(remove(post.id))}
         undo={() => setRemoved(false)}
       />
     );

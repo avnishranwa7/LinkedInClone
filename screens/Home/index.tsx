@@ -1,4 +1,4 @@
-import { useCallback, useState, useMemo } from "react";
+import { useMemo } from "react";
 import { ScrollView, StyleSheet, Text, Pressable } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
@@ -9,17 +9,11 @@ import { useSelector } from "react-redux";
 import Post from "../../components/Post";
 import BottomSheetModal from "../../components/BottomSheetModal";
 import { Color } from "../../constants/Color";
-import { Posts } from "./Data";
 import { RootState } from "../../store";
 
 const Home = () => {
-  const [posts, setPosts] = useState(Posts);
-
   const content = useSelector((state: RootState) => state.bottomSheet.content);
-
-  const removePost = useCallback((id: string) => {
-    setPosts((prev) => prev.filter((post) => post.id !== id));
-  }, []);
+  const posts = useSelector((state: RootState) => state.posts.posts);
 
   const snapPoints = useMemo(() => [130, 280], []);
   const innerContent = useMemo(
@@ -71,7 +65,7 @@ const Home = () => {
           <Text style={styles.noPostText}>No posts to show</Text>
         )}
         {posts.map((post) => (
-          <Post key={post.id} post={post} remove={removePost} />
+          <Post key={post.id} post={post} />
         ))}
       </ScrollView>
       {content !== "PostScreen" && content !== "" && (
