@@ -56,7 +56,7 @@ const BottomSheetModalComponent: FC<Props> = ({
         backdropComponent={backdropComponent}
       >
         <BottomSheetScrollView
-          {...(containerStyle && { style: containerStyle })}
+          {...(containerStyle && { contentContainerStyle: containerStyle })}
         >
           {typeof innerContent === "function" ? innerContent() : innerContent}
         </BottomSheetScrollView>

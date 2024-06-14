@@ -3,11 +3,13 @@ import { configureStore } from "@reduxjs/toolkit";
 // local imports
 import bottomSheetReducer from "./BottomSheet";
 import userReducer from "./user";
+import postReducer from "./posts";
 
 export const store = configureStore({
   reducer: {
     bottomSheet: bottomSheetReducer,
     user: userReducer,
+    posts: postReducer,
   },
 });
 

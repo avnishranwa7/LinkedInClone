@@ -110,6 +110,7 @@ function TabNavigator() {
         <BottomSheetModalComponent
           snapPoints={["100%", "100%"]}
           innerContent={PostScreen}
+          containerStyle={{ flex: 1 }}
         />
       )}
     </>
