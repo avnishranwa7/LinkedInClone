@@ -6,8 +6,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 
 // local imports
-import Post from "../../components/Post";
-import BottomSheetModal from "../../components/BottomSheetModal";
+import { BottomSheetModal, Post } from "../../components";
 import { Color } from "../../constants/Color";
 import { RootState } from "../../store";
 

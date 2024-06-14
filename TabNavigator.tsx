@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,9 +14,8 @@ import {
 import { Color } from "./constants/Color";
 import Header from "./Header";
 import { open } from "./store/BottomSheet";
-import BottomSheetModalComponent from "./components/BottomSheetModal";
+import { BottomSheetModal as BottomSheetModalComponent } from "./components";
 import { RootState } from "./store";
-import { useCallback } from "react";
 
 const Tab = createBottomTabNavigator();
 
