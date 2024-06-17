@@ -16,6 +16,7 @@ interface Props {
   onPress: () => void;
   buttonStyles?: StyleProp<ViewStyle>;
   textStyles?: StyleProp<TextStyle>;
+  pressedStyles?: StyleProp<ViewStyle>;
 }
 
 const RoundedButton: FC<Props> = ({
@@ -23,9 +24,17 @@ const RoundedButton: FC<Props> = ({
   onPress,
   buttonStyles,
   textStyles,
+  pressedStyles,
 }) => {
   return (
-    <Pressable onPress={onPress} style={[styles.button, buttonStyles]}>
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.button,
+        buttonStyles,
+        pressed && pressedStyles,
+      ]}
+    >
       <Text style={[styles.text, textStyles]}>{children}</Text>
     </Pressable>
   );

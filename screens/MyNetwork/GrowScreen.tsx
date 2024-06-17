@@ -1,12 +1,20 @@
-import { Pressable, StyleSheet, Text, View, Platform } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  Platform,
+  ScrollView,
+} from "react-native";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 // local imports
 import { Color } from "../../constants/Color";
+import { NetworkData } from "./Data";
+import CategoriesCard from "./CategoriesCard";
 
 const GrowScreen = () => {
   return (
-    <View style={styles.screen}>
+    <ScrollView contentContainerStyle={styles.screen}>
       <Pressable
         android_ripple={{ color: Color.grey[200] }}
         style={({ pressed }) => [
@@ -29,8 +37,10 @@ const GrowScreen = () => {
         <Text style={[styles.invitationText]}>Manage my network</Text>
         <FontAwesome6 name="arrow-right" size={15} color={Color.grey[700]} />
       </Pressable>
-      <View style={[styles.view]}></View>
-    </View>
+      {NetworkData.map((network) => (
+        <CategoriesCard key={network.id} network={network} />
+      ))}
+    </ScrollView>
   );
 };
 
@@ -44,12 +54,13 @@ const styles = StyleSheet.create({
   view: {
     paddingVertical: 16,
     paddingHorizontal: 12,
-    backgroundColor: Color.white,
+    gap: 8,
   },
   rowView: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: Color.white,
   },
   invitationText: {
     fontWeight: "500",

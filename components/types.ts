@@ -5,6 +5,7 @@ export interface User {
   imageUri?: string;
   address?: string;
   company?: string;
+  backgroundImage?: string;
 }
 
 export type connectionType =
