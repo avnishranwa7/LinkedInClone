@@ -4,7 +4,7 @@
     "slug": "LinkedInClone",
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./assets/logo.png",
+    "icon": "./assets/logo-adaptive-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
