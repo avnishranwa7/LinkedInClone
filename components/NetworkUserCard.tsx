@@ -20,7 +20,6 @@ interface Props {
 
 const NetworkUserCard: FC<Props> = ({ userId }) => {
   const user = Users.find((user) => user.id === userId);
-  console.log(user?.backgroundImage);
 
   return (
     <Pressable
