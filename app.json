@@ -4,7 +4,7 @@
     "slug": "LinkedInClone",
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./assets/logo-adaptive-icon.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -16,7 +16,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo-adaptive-icon.png",
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.avnishranwa7.LinkedInClone"
