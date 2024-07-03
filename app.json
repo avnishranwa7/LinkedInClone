@@ -16,7 +16,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo.png",
+        "foregroundImage": "./assets/logo-adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.avnishranwa7.LinkedInClone"
