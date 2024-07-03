@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { Avatar } from "@rneui/themed";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
@@ -10,6 +9,7 @@ import { useSelector } from "react-redux";
 import { Color } from "./constants/Color";
 import { NativeStackParamList } from "./Navigator";
 import { RootState } from "./store";
+import { UserAvatar } from "./components";
 
 interface Props {
   openDrawer: () => void;
@@ -23,13 +23,7 @@ const Header: FC<Props> = ({ openDrawer }) => {
   return (
     <View style={styles.header}>
       <Pressable onPress={() => openDrawer()}>
-        <Avatar
-          size={33}
-          rounded
-          icon={{ name: "user", type: "font-awesome", color: Color.black }}
-          containerStyle={{ backgroundColor: Color.grey[200] }}
-          {...(user.imageUri && { source: { uri: user.imageUri } })}
-        />
+        <UserAvatar size={33} image={user?.imageUri} />
       </Pressable>
       <View style={styles.searchView}>
         <Ionicons name="search" size={18} color={Color.black} />

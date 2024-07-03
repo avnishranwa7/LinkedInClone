@@ -11,7 +11,7 @@ import { Avatar } from "@rneui/themed";
 
 // local imports
 import { Color } from "../constants/Color";
-import { Users } from "../screens/Home/Data";
+import { USERS } from "../DATA";
 import RoundedButton from "./RoundedButton";
 
 interface Props {
@@ -19,7 +19,7 @@ interface Props {
 }
 
 const NetworkUserCard: FC<Props> = ({ userId }) => {
-  const user = Users.find((user) => user.id === userId);
+  const user = USERS.find((user) => user.id === userId);
 
   return (
     <Pressable

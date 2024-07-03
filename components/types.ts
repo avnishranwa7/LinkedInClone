@@ -27,4 +27,19 @@ export interface Post {
     userId: string;
     type: connectionType;
   };
+  image?: string;
+}
+
+export interface NotificationType {
+  id: string;
+  userId: string;
+  postId: string;
+  time: string;
+  type:
+    | "posted"
+    | "reposted"
+    | "commented"
+    | "hiring"
+    | "opportunity"
+    | "profile-visit";
 }

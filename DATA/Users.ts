@@ -1,6 +1,6 @@
-import { User } from "../../components/types";
+import { User } from "../components/types";
 
-export const Users: Array<User> = [
+const USERS: Array<User> = [
   {
     id: "user0",
     name: "Avnish Ranwa",
@@ -144,3 +144,5 @@ export const Users: Array<User> = [
       "https://media.licdn.com/dms/image/D4D16AQHSGfOsjgXzXw/profile-displaybackgroundimage-shrink_200_800/0/1673283537669?e=2147483647&v=beta&t=zZa0XWFE0OXeTDwafhq0CP5zluDNBKJ9p0A1TsC1zTY",
   },
 ];
+
+export default USERS;

@@ -12,6 +12,7 @@ import { RootState } from "../../store";
 
 const Home = () => {
   const content = useSelector((state: RootState) => state.bottomSheet.content);
+  const screen = useSelector((state: RootState) => state.bottomSheet.screen);
   const posts = useSelector((state: RootState) => state.posts.posts);
 
   const snapPoints = useMemo(() => [130, 280], []);
@@ -67,7 +68,7 @@ const Home = () => {
           <Post key={post.id} post={post} />
         ))}
       </ScrollView>
-      {content !== "PostScreen" && content !== "" && (
+      {screen === "HomeScreen" && content !== "" && (
         <BottomSheetModal snapPoints={snapPoints} innerContent={innerContent} />
       )}
     </>

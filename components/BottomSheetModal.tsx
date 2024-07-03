@@ -14,8 +14,8 @@ import { RootState } from "../store";
 import { close } from "../store/BottomSheet";
 
 interface Props {
-  snapPoints: Array<number | string>;
   innerContent: JSX.Element | (() => JSX.Element);
+  snapPoints?: Array<number | string>;
   containerStyle?: StyleProp<ViewStyle>;
   closeModal?: () => void;
 }
@@ -48,7 +48,7 @@ const BottomSheetModalComponent: FC<Props> = ({
       <BottomSheetModal
         ref={bottomSheetModalRef}
         index={1}
-        snapPoints={snapPoints}
+        snapPoints={snapPoints ?? ["100%", "100%"]}
         onDismiss={() => {
           dispatch(close());
           closeModal && closeModal();

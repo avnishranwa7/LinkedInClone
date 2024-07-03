@@ -1,6 +1,5 @@
 import { FC, useMemo, useState } from "react";
-import { View, StyleSheet, Pressable, Text } from "react-native";
-import { Avatar } from "@rneui/themed";
+import { View, StyleSheet, Pressable, Text, Image } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -11,11 +10,12 @@ import { useDispatch } from "react-redux";
 // local imports
 import { Color } from "../constants/Color";
 import { open } from "../store/BottomSheet";
-import { Users } from "../screens/Home/Data";
 import { remove } from "../store/posts";
+import { USERS } from "../DATA";
 import LikedButton from "./LikedButton";
 import { Post as PostType, connectionType } from "./types";
 import RemovedPost from "./RemovedPost";
+import UserAvatar from "./UserAvatar";
 
 function getConnectionString(type: connectionType) {
   if (type === "comment") return "commented on this";
@@ -38,16 +38,16 @@ const Post: FC<Props> = ({ post }) => {
   const dispatch = useDispatch();
 
   const user = useMemo(
-    () => Users.find((user) => user.id === post.userId),
+    () => USERS.find((user) => user.id === post.userId),
     [post]
   );
 
-  const connectionUser = Users.find(
+  const connectionUser = USERS.find(
     (user) => user.id === post.connection?.userId
   );
 
   function openModal() {
-    dispatch(open(user?.name));
+    dispatch(open({ content: user?.name, screen: "HomeScreen" }));
   }
 
   if (removed)
@@ -62,15 +62,7 @@ const Post: FC<Props> = ({ post }) => {
     <View style={styles.post}>
       {post.connection && (
         <View style={styles.connectionView}>
-          <Avatar
-            size={26}
-            rounded
-            icon={{ name: "user", type: "font-awesome", color: Color.black }}
-            containerStyle={{ backgroundColor: Color.grey[200] }}
-            {...(connectionUser?.imageUri && {
-              source: { uri: connectionUser.imageUri },
-            })}
-          />
+          <UserAvatar size={26} image={connectionUser?.imageUri} />
           <Text style={{ marginLeft: 8, fontWeight: "500" }}>
             {connectionUser?.name}
           </Text>
@@ -113,13 +105,7 @@ const Post: FC<Props> = ({ post }) => {
         ]}
       >
         <View style={styles.userView}>
-          <Avatar
-            size={46}
-            rounded
-            icon={{ name: "user", type: "font-awesome", color: Color.black }}
-            containerStyle={{ backgroundColor: Color.grey[200] }}
-            {...(user?.imageUri && { source: { uri: user.imageUri } })}
-          />
+          <UserAvatar size={46} image={user?.imageUri} />
           <View
             style={{
               paddingTop: 4,
@@ -212,6 +198,9 @@ const Post: FC<Props> = ({ post }) => {
           </Pressable>
         ))}
       </View>
+      {post.image && (
+        <Image source={{ uri: post.image }} style={styles.image} />
+      )}
       <View
         style={[
           styles.countView,
@@ -343,6 +332,10 @@ const styles = StyleSheet.create({
   tag: {
     color: Color.blue[800],
     fontWeight: "700",
+  },
+  image: {
+    width: "100%",
+    height: 300,
   },
   countView: {
     flexDirection: "row",

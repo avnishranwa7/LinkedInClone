@@ -2,7 +2,7 @@ import { FC } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 // local imports
-import NetworkUserCard from "../../components/NetworkUserCard";
+import { NetworkUserCard } from "../../components";
 import { Color } from "../../constants/Color";
 import { NetworkDataType } from "./Data";
 

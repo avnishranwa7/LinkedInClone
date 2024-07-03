@@ -4,11 +4,13 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 export interface BottomSheet {
   isOpen: boolean;
   content: string;
+  screen: string;
 }
 
 const initialState: BottomSheet = {
   isOpen: false,
   content: "",
+  screen: "",
 };
 
 export const bottomSheet = createSlice({
@@ -21,17 +23,22 @@ export const bottomSheet = createSlice({
     // incrementByAmount: (state, action: PayloadAction<number>) => {
     //   state.value += action.payload;
     // },
-    open: (state, action: PayloadAction<string | undefined>) => {
+    open: (
+      state,
+      action: PayloadAction<{ content: string; screen: string } | undefined>
+    ) => {
       if (!action.payload) return;
 
       if (!state.isOpen) {
         state.isOpen = true;
       }
-      state.content = action.payload;
+      state.content = action.payload.content;
+      state.screen = action.payload.screen;
     },
     close: (state) => {
       state.isOpen = false;
       state.content = "";
+      state.screen = "";
     },
   },
 });
