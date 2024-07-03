@@ -38,7 +38,7 @@ function tabBarIcon(
 function TabNavigator() {
   const dispatch = useDispatch();
   const isOpen =
-    useSelector((state: RootState) => state.bottomSheet.content) ===
+    useSelector((state: RootState) => state.bottomSheet.screen) ===
     "PostScreen";
 
   const header = useCallback(
@@ -84,7 +84,7 @@ function TabNavigator() {
           listeners={{
             tabPress: (e) => {
               e.preventDefault();
-              dispatch(open("PostScreen"));
+              dispatch(open({ content: "", screen: "PostScreen" }));
             },
           }}
         />
