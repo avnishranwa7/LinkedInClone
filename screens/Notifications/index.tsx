@@ -16,7 +16,7 @@ const Notifications = () => {
   const dispatch = useDispatch();
   const screen = useSelector((state: RootState) => state.bottomSheet.screen);
 
-  const snapPoints = useMemo(() => [120, 260], []);
+  const snapPoints = useMemo(() => [130, 260], []);
   const openModal = useCallback(
     () => dispatch(open({ screen: "NotificationScreen", content: "" })),
     []
