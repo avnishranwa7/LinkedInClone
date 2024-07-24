@@ -109,7 +109,11 @@ function TabNavigator() {
       {isOpen && (
         <BottomSheetModalComponent
           innerContent={PostScreen}
+          closeOnSlide={false}
+          moveOnSlide={false}
           containerStyle={{ flex: 1 }}
+          backdropStyle={{ backgroundColor: Color.white }}
+          indicatorStyle={{ display: "none" }}
         />
       )}
     </>

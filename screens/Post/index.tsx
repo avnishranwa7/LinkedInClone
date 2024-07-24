@@ -19,6 +19,10 @@ const Post = () => {
   const user = useSelector((state: RootState) => state.user.profile);
   const dispatch = useDispatch();
 
+  function closeModal() {
+    dispatch(close());
+  }
+
   function createPost() {
     const id = Math.random().toString(16).slice(2);
     const post: PostType = {
@@ -30,12 +34,21 @@ const Post = () => {
       repostsCount: 0,
     };
     dispatch(add(post));
-    dispatch(close());
+    closeModal();
   }
 
   return (
     <View style={styles.screen}>
       <View style={styles.header}>
+        <Pressable
+          onPress={closeModal}
+          style={({ pressed }) => [
+            styles.iconButton,
+            pressed && styles.pressed,
+          ]}
+        >
+          <AntDesign name="close" size={24} color={Color.grey[800]} />
+        </Pressable>
         <View style={styles.profile}>
           <Avatar
             size={33}
@@ -51,11 +64,18 @@ const Post = () => {
           </Text>
           <FontAwesome name="caret-down" size={16} color={Color.grey[600]} />
         </View>
-        <MaterialCommunityIcons
-          name="clock-outline"
-          size={24}
-          color={Color.grey[800]}
-        />
+        <Pressable
+          style={({ pressed }) => [
+            styles.iconButton,
+            pressed && styles.pressed,
+          ]}
+        >
+          <MaterialCommunityIcons
+            name="clock-outline"
+            size={24}
+            color={Color.grey[800]}
+          />
+        </Pressable>
         <Pressable
           onPress={createPost}
           disabled={!input}
@@ -81,7 +101,7 @@ const Post = () => {
         <Pressable
           style={({ pressed }) => [
             pressed && styles.pressed,
-            styles.footerButton,
+            styles.iconButton,
             { padding: 8 },
           ]}
         >
@@ -90,7 +110,7 @@ const Post = () => {
         <Pressable
           style={({ pressed }) => [
             pressed && styles.pressed,
-            styles.footerButton,
+            styles.iconButton,
           ]}
         >
           <AntDesign name="plus" size={22} color={Color.grey[800]} />
@@ -149,7 +169,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 16,
   },
-  footerButton: {
+  iconButton: {
     padding: 4,
     borderRadius: 50,
   },

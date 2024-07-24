@@ -15,15 +15,23 @@ import { close } from "../store/BottomSheet";
 
 interface Props {
   innerContent: JSX.Element | (() => JSX.Element);
+  moveOnSlide?: boolean;
+  closeOnSlide?: boolean;
   snapPoints?: Array<number | string>;
   containerStyle?: StyleProp<ViewStyle>;
+  backdropStyle?: StyleProp<ViewStyle>;
+  indicatorStyle?: StyleProp<ViewStyle>;
   closeModal?: () => void;
 }
 
 const BottomSheetModalComponent: FC<Props> = ({
   snapPoints,
+  closeOnSlide = true,
+  moveOnSlide = true,
   innerContent,
   containerStyle,
+  backdropStyle,
+  indicatorStyle,
   closeModal,
 }) => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -33,7 +41,11 @@ const BottomSheetModalComponent: FC<Props> = ({
 
   const backdropComponent = useCallback(
     (backdropProps: BottomSheetBackdropProps) => (
-      <BottomSheetBackdrop enableTouchThrough={false} {...backdropProps} />
+      <BottomSheetBackdrop
+        enableTouchThrough={false}
+        {...backdropProps}
+        {...(backdropStyle && { style: backdropStyle })}
+      />
     ),
     []
   );
@@ -54,6 +66,10 @@ const BottomSheetModalComponent: FC<Props> = ({
           closeModal && closeModal();
         }}
         backdropComponent={backdropComponent}
+        enablePanDownToClose={closeOnSlide}
+        enableContentPanningGesture={moveOnSlide}
+        enableHandlePanningGesture={moveOnSlide}
+        {...(indicatorStyle && { handleIndicatorStyle: indicatorStyle })}
       >
         <BottomSheetScrollView
           {...(containerStyle && { contentContainerStyle: containerStyle })}
